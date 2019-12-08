@@ -1,5 +1,4 @@
 use std::fs;
-use std::ops::RangeInclusive;
 
 fn main() {
     let range = 246540..787419;
@@ -14,16 +13,17 @@ fn is_elligible(pass: &i32) -> bool {
 }
 
 fn has_duplicate(vec: &Vec<u32>) -> bool {
-    let mut prev: Option<&u32> = None;
-    for next in vec {
-        match prev {
-            Some(prev_val) if next == prev_val =>{
-                    return true;
-            }
-            _ => prev = Some(next),
+    let duplicate: u32 = 2;
+    let counts: Vec<u32> = Vec::new();
+    vec.iter().fold((counts, &0u32), |(mut sums, last), next| {
+        if last == next {
+            let last_idx = sums.len() - 1;
+            sums[last_idx] = sums[last_idx] + 1
+        } else {
+            sums.push(1)
         }
-    }
-    false
+        (sums, next)
+    }).0.contains(&duplicate)
 }
 
 fn is_sorted(vec: &Vec<u32>) -> bool {
